@@ -1,0 +1,65 @@
+@font-face {
+  font-family: 'Gilroy';
+  src: local('GilroyRegular'), url(./fonts/Gilroy/Gilroy-Regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'GilroyBold';
+  src: local('GilroyBold'), url(./fonts/Gilroy/Gilroy-Bold.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'GilroyThin';
+  src: local('GilroyUltraLight'), url(./fonts/Gilroy/Gilroy-UltraLight.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Veles';
+  src: local('Veles'), url(./fonts/Veles/Veles-Regular.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'VelesBold';
+  src: local('VelesBold'), url(./fonts/Veles/Veles-Bold.otf) format('opentype');
+}
+
+body {
+  font-family: Gilroy!important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: GilroyBold!important;
+}
+
+.active-button {
+    color: #fff!important;
+    border: 1px solid #a749ff!important;
+    background-color: #a749ff;
+}
+
+.description-review-bottom .product-anotherinfo-wrapper ul li span {
+    min-width: 95px!important;
+}
+
+.main-title-nf {
+  font-family: Veles!important;
+  line-height: 100px;
+}
+
+.Feed {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.Feed a {
+    max-width: 25%;
+    display: block;
+}
+
+.Feed a img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+

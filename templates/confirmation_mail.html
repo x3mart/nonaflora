@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NF</title>
+</head>
+<body>
+    <h3>Привет, {{ order.name }}! Спасибо за Ваш заказ.</h3>
+    <p>ИНФОРМАЦИЯ О ЗАКАЗЕ:<br> 
+    Номер заказа: {{ order.orderNumber }} <br>
+    Дата заказа: {{ order.order_date }} <br>
+    Состав заказа:<br>
+    {% for item in goods %} 
+    {{ item.name }}, количество {{ item.quantity|floatformat:"0" }}, цена {{ item.price }} руб. <br>
+    {% endfor %}
+    Итоговая сумма: {{ order.amount }} руб.<br>
+    Статус: Оплачено банковской картой <br>
+    Адрес доставки: {{ order.adress}} <br>
+    День доставки: {{ order.delivery_day }} <br>
+    Время доставки: {{  order.delivery_time}} <br>
+    {% if order.name2 %}
+    Имя получателя: {{ order.name2 }} <br>
+    {% endif %}
+    {% if order.phone2 %}
+    Телефон получателя: {{ order.phone2 }} <br>
+    {% endif %}
+    {% if order.comment %}
+    Пожелания: {{ order.comment}} <br>
+    {% endif %}
+    <hr>
+            
+    С наилучшими пожеланиями, <br>
+    Нонночка и Флорочка <br><br>
+    +7 (495) 320-50-08 <br>
+    www.nonaflora.ru</p>
+</body>
+</html>

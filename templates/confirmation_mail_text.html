@@ -1,0 +1,28 @@
+
+    Привет, {{ order.name }}! Спасибо за Ваш заказ.
+    ИНФОРМАЦИЯ О ЗАКАЗЕ:
+    Номер заказа: {{ order.orderNumber }} 
+    Дата заказа: {{ order.order_date }} 
+    Состав заказа:
+    {% for item in goods %} 
+    {{item.name}}, количество {{ item.quantity|floatformat:"0" }}, цена {{item.price}} руб.
+    {% endfor %}
+    Итоговая сумма: {{ order.amount }} руб.
+    Статус: Оплачено банковской картой 
+    Адрес доставки: {{ order.adress}} 
+    День доставки: {{ order.delivery_day }} 
+    Время доставки: {{  order.delivery_time}} 
+    {% if order.name2 %}
+    Имя получателя: {{ order.name2 }} 
+    {% endif %}
+    {% if order.phone2 %}
+    Телефон получателя: {{ order.phone2 }} 
+    {% endif %}
+    {% if order.comment %}
+    Пожелания: {{ order.comment}} 
+    {% endif %}
+            
+    С наилучшими пожеланиями, 
+    Нонночка и Флорочка 
+    +7 (495) 320-50-08 
+    www.nonaflora.ru

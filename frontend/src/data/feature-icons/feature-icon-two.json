@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "image": "/media/assets/img/icon-img/support-1.png",
+    "title": "Бесплатная доставка",
+    "subtitle": "При заказе от 30000 рублей доставка за наш счет."
+  },
+  {
+    "id": 2,
+    "image": "/media/assets/img/icon-img/support-2.png",
+    "title": "Оперативная помощь",
+    "subtitle": "В случае возникновения проблемы, свяжитесь с нами."
+  },
+  {
+    "id": 3,
+    "image": "/media/assets/img/icon-img/support-3.png",
+    "title": "Невысокие цены",
+    "subtitle": "Мы не поднимаем цены выше рынка."
+  }
+]
