@@ -12,10 +12,10 @@ const NotFound = ({ location }) => {
   return (
     <Fragment>
       <MetaTags>
-        <title>Flone | Not Found</title>
+        <title>Нонночка&Флорочка | Такой страницы нет</title>
         <meta
           name="description"
-          content="404 page of flone react minimalist eCommerce template."
+          content="404 page"
         />
       </MetaTags>
       <BreadcrumbsItem to={process.env.PUBLIC_URL + "/"}>Главная</BreadcrumbsItem>

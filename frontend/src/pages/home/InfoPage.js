@@ -19,7 +19,6 @@ const InfoPage = (props) => {
     load_home_page();
   }, [])
 
-  console.log(slug)
 
   useEffect(() => {
     if (home_page !== null) {
@@ -36,7 +35,7 @@ const InfoPage = (props) => {
   return (
     <Fragment>
       <MetaTags>
-        <title>Flone | Fashion Home</title>
+        <title>Нонночка&Флорочка | {data.short_title}</title>
         <meta
           name="description"
           content="Fashion home of flone react minimalist eCommerce template."
@@ -55,7 +54,7 @@ const InfoPage = (props) => {
         <div className="container py-5">
           <h2>{data.title}</h2>
 
-          <div
+          <div className="info-text"
             dangerouslySetInnerHTML={{__html: data.body}}
           />
         </div>

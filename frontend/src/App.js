@@ -9,9 +9,12 @@ import { BreadcrumbsProvider } from "react-breadcrumbs-dynamic";
 import './index.css'
 import 'react-image-lightbox/style.css';
 import {load_home_page} from "./redux/actions/homePageActions"
+// import HomeFashionThree from "./pages/home/HomeFashionThree";
 
 // home pages
 const HomeFashionThree = lazy(() => import("./pages/home/HomeFashionThree"));
+const SuccessPage = lazy(() => import("./pages/home/SuccessPage"));
+const FailPage = lazy(() => import("./pages/home/FailPage"));
 const InfoPage = lazy(() => import("./pages/home/InfoPage"));
 
 
@@ -100,6 +103,16 @@ const App = (props) => {
                   exact
                   path={process.env.PUBLIC_URL + "/"}
                   component={HomeFashionThree}
+                />
+                <Route
+                  exact
+                  path={process.env.PUBLIC_URL + "/success"}
+                  component={SuccessPage}
+                />
+                <Route
+                  exact
+                  path={process.env.PUBLIC_URL + "/fail"}
+                  component={FailPage}
                 />
                 <Route
                   path={process.env.PUBLIC_URL + "/info/:slug"}

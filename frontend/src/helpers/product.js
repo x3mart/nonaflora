@@ -1,9 +1,11 @@
 // get products
+import {isNotEmptyObject} from "./phone";
+
 export const getProducts = (products, category, type, limit) => {
   const finalProducts = category
     ? products.filter(
-        product => product.category.filter(single => single === category)[0]
-      )
+      product => product.category.filter(single => single === category)[0]
+    )
     : products;
 
   if (type && type === "new") {
@@ -27,8 +29,26 @@ export const getProducts = (products, category, type, limit) => {
 };
 
 // get product discount price
-export const getDiscountPrice = (price, discount) => {
-  return discount && discount > 0 ? price - price * (discount / 100) : null;
+export const getDiscountPrice = (item, promo) => {
+
+  // if(item && Object.keys(item).length === 0 && item.constructor === Object) {
+  //   if (
+  //     (promo.discount.l_set && item.title === 'Подписка L')
+  //     || (promo.discount.m_set && item.title === 'Подписка M')
+  //     || (promo.discount.accessories && item.accessories)
+  //   ) {
+  //     return item.price - item.price * (promo.discount / 100)
+  //     // return promo.discount && promo.discount > 0 ? item.price - item.price * (promo.discount / 100) : null;
+  //   }
+  // }
+
+
+  // if(item && Object.keys(item).length === 0 && item.constructor === Object) {
+  //   if (promo.discount.l_set && item.title === 'Подписка L') {
+  //   } else if (promo.discount.m_set && item.title === 'Подписка M') {
+  //   } else if (promo.discount.accessories && item.accessories) {
+  //   }
+  // }
 };
 
 // get product cart quantity
@@ -108,7 +128,7 @@ export const getSortedProducts = (products, sortType, sortValue) => {
 
 // get individual element
 const getIndividualItemArray = array => {
-  let individualItemArray = array.filter(function(v, i, self) {
+  let individualItemArray = array.filter(function (v, i, self) {
     return i === self.indexOf(v);
   });
   return individualItemArray;
@@ -118,14 +138,14 @@ const getIndividualItemArray = array => {
 export const getIndividualCategories = products => {
   let productCategories = [];
   products &&
-    products.map(product => {
-      return (
-        product.category &&
-        product.category.map(single => {
-          return productCategories.push(single);
-        })
-      );
-    });
+  products.map(product => {
+    return (
+      product.category &&
+      product.category.map(single => {
+        return productCategories.push(single);
+      })
+    );
+  });
   const individualProductCategories = getIndividualItemArray(productCategories);
   return individualProductCategories;
 };
@@ -134,14 +154,14 @@ export const getIndividualCategories = products => {
 export const getIndividualTags = products => {
   let productTags = [];
   products &&
-    products.map(product => {
-      return (
-        product.tag &&
-        product.tag.map(single => {
-          return productTags.push(single);
-        })
-      );
-    });
+  products.map(product => {
+    return (
+      product.tag &&
+      product.tag.map(single => {
+        return productTags.push(single);
+      })
+    );
+  });
   const individualProductTags = getIndividualItemArray(productTags);
   return individualProductTags;
 };
@@ -150,14 +170,14 @@ export const getIndividualTags = products => {
 export const getIndividualColors = products => {
   let productColors = [];
   products &&
-    products.map(product => {
-      return (
-        product.variation &&
-        product.variation.map(single => {
-          return productColors.push(single.color);
-        })
-      );
-    });
+  products.map(product => {
+    return (
+      product.variation &&
+      product.variation.map(single => {
+        return productColors.push(single.color);
+      })
+    );
+  });
   const individualProductColors = getIndividualItemArray(productColors);
   return individualProductColors;
 };
@@ -166,16 +186,16 @@ export const getIndividualColors = products => {
 export const getProductsIndividualSizes = products => {
   let productSizes = [];
   products &&
-    products.map(product => {
-      return (
-        product.variation &&
-        product.variation.map(single => {
-          return single.size.map(single => {
-            return productSizes.push(single.name);
-          });
-        })
-      );
-    });
+  products.map(product => {
+    return (
+      product.variation &&
+      product.variation.map(single => {
+        return single.size.map(single => {
+          return productSizes.push(single.name);
+        });
+      })
+    );
+  });
   const individualProductSizes = getIndividualItemArray(productSizes);
   return individualProductSizes;
 };
@@ -184,14 +204,14 @@ export const getProductsIndividualSizes = products => {
 export const getIndividualSizes = product => {
   let productSizes = [];
   product.variation &&
-    product.variation.map(singleVariation => {
-      return (
-        singleVariation.size &&
-        singleVariation.size.map(singleSize => {
-          return productSizes.push(singleSize.name);
-        })
-      );
-    });
+  product.variation.map(singleVariation => {
+    return (
+      singleVariation.size &&
+      singleVariation.size.map(singleSize => {
+        return productSizes.push(singleSize.name);
+      })
+    );
+  });
   const individualSizes = getIndividualItemArray(productSizes);
   return individualSizes;
 };
@@ -227,3 +247,65 @@ export const toggleShopTopFilter = e => {
   }
   e.currentTarget.classList.toggle("active");
 };
+
+export const promoPrice = (item, promo) => {
+
+  if (item && promo.discount) {
+    let codes = []
+
+    promo.sets.map(item => codes.push(item.code))
+    // promo.sets.map(item => codes.push(item))
+
+    if (codes.includes(item.id)) {
+      return promo.discount && promo.discount > 0 ? item.price - item.price * (promo.discount / 100) : null;
+    } else if (item.is_accessories && promo.accessories) {
+      return promo.discount && promo.discount > 0 ? item.price - item.price * (promo.discount / 100) : null;
+    } else {
+      return null
+    }
+  } else {
+    return null
+  }
+
+
+  // if(item && promo.discount){
+  //   if(item.selectedProductSize === 'S' && promo.s_set){
+  //     return promo.discount && promo.discount > 0 ? item.price - item.price * (promo.discount / 100) : null;
+  //   } else if(item.selectedProductSize === 'M' && promo.m_set){
+  //     return promo.discount && promo.discount > 0 ? item.price - item.price * (promo.discount / 100) : null;
+  //   } else if(item.selectedProductSize === 'L' && promo.l_set){
+  //     return promo.discount && promo.discount > 0 ? item.price - item.price * (promo.discount / 100) : null;
+  //   } else if(item.is_accessories && promo.accessories){
+  //     return promo.discount && promo.discount > 0 ? item.price - item.price * (promo.discount / 100) : null;
+  //   } else {
+  //     return null
+  //   }
+  // } else {
+  //   return null
+  // }
+}
+
+export const checkPromo = (items, promo) => {
+  const sets = promo && promo.sets ? promo.sets : []
+  if (items && promo && isNotEmptyObject(promo)) {
+    let itemsCodes = []
+    let promoCodes = []
+    let result = []
+    items.map(item => itemsCodes.push(item.code))
+    sets.map(item => promoCodes.push(item.code))
+    if(itemsCodes.length > 0 && promoCodes.length > 0) {
+      itemsCodes.map(item => {
+        promoCodes.map(code => code === item ? result.push(code) : '')
+      })
+    }
+    return result.length > 0
+  }
+}
+
+export const promoNames = (item, promo) => {
+  if (item && promo) {
+    return promo.sets.map(promoItem => promoItem.code === item.code ? promoItem.title : null)
+  } else if (item && promo) {
+    return promo.accessories && item.is_accessory ? 'Аксессуары' : null
+  }
+}

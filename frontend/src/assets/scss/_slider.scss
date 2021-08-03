@@ -793,7 +793,7 @@
 
       content: "";
 
-      background-color: #000000;
+      background-color: #234149;
     }
     &::after {
       position: absolute;
@@ -805,14 +805,14 @@
 
       content: "";
 
-      background-color: #000000;
+      background-color: #234149;
     }
   }
   h1 {
     font-size: 72px;
-    line-height: 56px;
+    line-height: 72px;
 
-    margin: 28px 0 23px;
+    margin: 35px 0 50px;
     @media #{$lg-layout} {
       font-size: 52px;
       line-height: 40px;
@@ -831,7 +831,7 @@
   p {
     font-size: 18px;
 
-    margin: 0 0 44px;
+    margin: 0 0 24px;
 
     color: #010101;
   }
@@ -846,8 +846,8 @@
 
       text-transform: uppercase;
 
-      color: #010101;
-      border: 1px solid #333;
+      color: #234149;
+      border: 1px solid #234149;
       &:hover {
         color: #fff;
         border: 1px solid $theme-color;

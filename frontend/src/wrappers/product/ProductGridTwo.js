@@ -24,7 +24,7 @@ const ProductGridTwo = ({
 }) => {
   return (
     <Fragment>
-      {home_page && home_page.accessory.map((item) => {
+      {home_page && home_page.accessory_block.accessories.map((item) => {
         return (
           <ProductGridSingleTwo
             sliderClassName={sliderClassName}

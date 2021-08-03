@@ -5,13 +5,15 @@ const SectionTitleTwo = ({
   titleText,
   subTitleText,
   positionClass,
-  spaceClass
+  spaceClass,
+  image
 }) => {
   return (
     <div
       className={`section-title-2 ${positionClass ? positionClass : ""} ${
         spaceClass ? spaceClass : ""
       }`}
+      // style={{backgroundImage: 'url(' + image + ')'}}
     >
       <h2>{titleText}</h2>
       <p>{subTitleText}</p>

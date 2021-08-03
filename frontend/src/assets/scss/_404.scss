@@ -5,7 +5,7 @@
     letter-spacing: 1rem;
     line-height: 1.1;
     margin-bottom: 30px;
-    color: #a749ff;
+    color: #e0b22b;
     @media #{$lg-layout} {
       font-size: 15rem;
       margin-bottom: 4px;
@@ -40,7 +40,7 @@
   padding: 0 10px;
   border: none;
   border-radius: 0;
-  background-color: #a749ff;
+  background-color: #e0b22b;
   display: inline-block;
   &:after {
     position: absolute;
@@ -49,12 +49,12 @@
     bottom: -6px;
     height: 3px;
     width: 100%;
-    background-color: #a749ff;
+    background-color: #e0b22b;
     transition: all 0.3s;
   }
   &:hover {
     background-color: #111111;
-    color: #fff;
+    color: #fff!important;
     &:after {
       background-color: #111111;
     }
@@ -73,7 +73,7 @@
   }
   & button {
     border: none;
-    background-color: #a749ff;
+    background-color: #e0b22b;
     width: 70px;
     color: #fff;
     cursor: pointer;

@@ -2,13 +2,15 @@ import PropTypes from "prop-types";
 import React from "react";
 import ProductGridTwo from "./ProductGridTwo";
 import SectionTitleTwo from "../../components/section-title/SectionTitleTwo";
+import { connect } from "react-redux";
+import {getProducts} from "../../helpers/product";
 
-const NewProductGrid = ({ category, limit }) => {
+const NewProductGrid = ({ category, limit, home_page }) => {
   return (
-    <div className="product-area pb-60 section-padding-1">
+    <div className="product-area section-padding-1">
       <div className="container-fluid">
         <SectionTitleTwo
-          titleText="Сопутствующие товары"
+          titleText={home_page.accessory_block.title}
           subTitleText=""
           positionClass="text-center"
           spaceClass="mb-60"
@@ -30,4 +32,10 @@ NewProductGrid.propTypes = {
   limit: PropTypes.number
 };
 
-export default NewProductGrid;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    home_page: state.homePageReducer.home_page,
+  };
+};
+
+export default connect(mapStateToProps)(NewProductGrid);

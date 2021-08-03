@@ -2,18 +2,21 @@
   {
     "id": 1,
     "image": "/media/assets/img/icon-img/support-1.png",
+    "bg": 1,
     "title": "Бесплатная доставка",
-    "subtitle": "При заказе от 30000 рублей доставка за наш счет."
+    "subtitle": "При покупке подписки, доставка за наш счет."
   },
   {
     "id": 2,
     "image": "/media/assets/img/icon-img/support-2.png",
+    "bg": 2,
     "title": "Оперативная помощь",
     "subtitle": "В случае возникновения проблемы, свяжитесь с нами."
   },
   {
     "id": 3,
     "image": "/media/assets/img/icon-img/support-3.png",
+    "bg": 3,
     "title": "Невысокие цены",
     "subtitle": "Мы не поднимаем цены выше рынка."
   }

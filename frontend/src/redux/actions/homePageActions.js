@@ -12,7 +12,7 @@ export const load_home_page = () => async dispatch => {
     };
 
     try {
-      const res = await axios.get(`http://nonaflora.ru/api/homepage/`, config);
+      const res = await axios.get(`https://nonaflora.ru/api/homepage/`, config);
       const data = {
         home_page: res.data,
       }

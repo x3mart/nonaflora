@@ -10,13 +10,15 @@ const FeatureIconTwoSingle = ({ data, spaceBottomClass, textAlignClass }) => {
         } ${textAlignClass ? textAlignClass : ""}`}
       >
         <div className="support-content-2">
-          <img
+          <div className="p-3" style={{backgroundRepeat: 'no-repeat', backgroundSize:'contain', backgroundPosition:'center', backgroundImage:`url(${data.bg_image})`, width:'100%', height:'100%'}}>
+            <img
             className="animated"
-            src={process.env.PUBLIC_URL + data.image}
+            src={data.icon}
             alt=""
           />
-          <h5>{data.title}</h5>
-          <p>{data.subtitle}</p>
+          </div>
+          <h5 dangerouslySetInnerHTML={{__html: data.title}}/>
+          <p dangerouslySetInnerHTML={{__html: data.text}}/>
         </div>
       </div>
     </div>

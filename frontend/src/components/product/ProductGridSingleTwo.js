@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
-import { getDiscountPrice } from "../../helpers/product";
+import { getDiscountPrice, promoPrice } from "../../helpers/product";
 import ProductModal from "./ProductModal";
 
 const ProductGridSingleTwo = ({
@@ -22,11 +22,11 @@ const ProductGridSingleTwo = ({
   const [modalShow, setModalShow] = useState(false);
   const { addToast } = useToasts();
 
-  const discountedPrice = getDiscountPrice(product.price, product.discount);
+  // const discountedPrice = promoPrice(product, promo);
   const finalProductPrice = +(product.price * currency.currencyRate);
-  const finalDiscountedPrice = +(
-    discountedPrice * currency.currencyRate
-  );
+  // const finalDiscountedPrice = +(
+  //   discountedPrice * currency.currencyRate
+  // );
 
   return (
     <Fragment>
@@ -41,13 +41,11 @@ const ProductGridSingleTwo = ({
           } ${colorClass ? colorClass : ""} `}
         >
           <div className="product-img">
-            <Link to={process.env.PUBLIC_URL + "/product/" + product.id}>
-              <img
+            <img
                 className=""
                 src={process.env.PUBLIC_URL + product.image}
                 alt=""
               />
-            </Link>
 
             <div className="product-action-2">
               <button
@@ -78,24 +76,11 @@ const ProductGridSingleTwo = ({
                 titlePriceClass ? titlePriceClass : ""
               }`}
             >
-              <h3>
-                <Link to={process.env.PUBLIC_URL + "/product/" + product.id}>
-                  {product.title}
-                </Link>
-              </h3>
+              <h4>
+                {product.title}
+              </h4>
               <div className="price-2">
-                {discountedPrice !== null ? (
-                  <Fragment>
-                    <span>
-                      {finalDiscountedPrice}
-                    </span>{" "}
-                    <span className="old">
-                      {finalProductPrice}
-                    </span>
-                  </Fragment>
-                ) : (
-                  <span>{finalProductPrice} </span>
-                )}
+                <span>{finalProductPrice} р.</span>
               </div>
             </div>
           </div>
@@ -107,9 +92,9 @@ const ProductGridSingleTwo = ({
         onHide={() => setModalShow(false)}
         product={product}
         currency={currency}
-        discountedprice={discountedPrice}
+        // discountedprice={discountedPrice}
         finalproductprice={finalProductPrice}
-        finaldiscountedprice={finalDiscountedPrice}
+        // finaldiscountedprice={finalDiscountedPrice}
         cartitem={cartItem}
         wishlistitem={wishlistItem}
         compareitem={compareItem}

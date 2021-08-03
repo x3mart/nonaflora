@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 import MenuCart from "./sub-components/MenuCart";
 import {deleteFromCart} from "../../redux/actions/cartActions";
+import {getFormattedPhone} from "../../helpers/phone"
 
 const IconGroup = ({
                      currency,
@@ -18,6 +19,14 @@ const IconGroup = ({
     e.currentTarget.nextSibling.classList.toggle("active");
   };
 
+  const is_empty = obj => {
+    if(Object.keys(obj).length === 0 && obj.constructor === Object) {
+      return true
+    } else {
+      return false
+    }
+  }
+
   const triggerMobileMenu = () => {
     const offcanvasMobileMenu = document.querySelector(
       "#offcanvas-mobile-menu"
@@ -29,14 +38,32 @@ const IconGroup = ({
     <div
       className={`header-right-wrap ${iconWhiteClass ? iconWhiteClass : ""}`}
     >
-      <div className="same-style d-none d-lg-block">
-        {home_page &&
+      <div className="same-style d-none d-md-block w-100">
+      {/*<div className="same-style d-none d-lg-block header-phone w-100">*/}
+        {!is_empty(home_page) &&
         home_page.contact.phones.map(item => (
-          <a href={`phone:${item.phone}`}>{item.phone}</a>
+          <a href={`tel:${item.phone}`} className="d-flex flex-row flex-nowrap">
+            <i className="fa fa-phone pr-2"></i>
+            <i className="fa fa-whatsapp pr-2"></i>
+            {getFormattedPhone(item.phone)}
+          </a>
         ))
         }
       </div>
-      {home_page &&
+
+      <div className="same-style d-block d-md-none w-100">
+      {/*<div className="same-style d-none d-lg-block header-phone w-100">*/}
+        {!is_empty(home_page) &&
+        home_page.contact.phones.map(item => (
+          <a href={`tel:${item.phone}`} className="d-flex flex-row flex-nowrap" style={{fontSize: 15}}>
+            {getFormattedPhone(item.phone)}
+          </a>
+        ))
+        }
+      </div>
+
+
+      {!is_empty(home_page) &&
       home_page.contact.socials.map(item => (
         <div className="same-style d-none d-lg-block">
           <a href={`${item.link}`}>{item.name === 'Facebook' &&
@@ -61,7 +88,7 @@ const IconGroup = ({
           deleteFromCart={deleteFromCart}
         />
       </div>
-      <div className="same-style cart-wrap d-block d-lg-none">
+      <div className="same-style cart-wrap d-block d-lg-none m-l-10">
         <Link className="icon-cart" to={process.env.PUBLIC_URL + "/cart"}>
           <i className="pe-7s-shopbag"/>
           <span className="count-style">
@@ -69,7 +96,7 @@ const IconGroup = ({
           </span>
         </Link>
       </div>
-      <div className="same-style mobile-off-canvas d-block d-lg-none">
+      <div className="same-style mobile-off-canvas d-none d-lg-none">
         <button
           className="mobile-aside-button"
           onClick={() => triggerMobileMenu()}

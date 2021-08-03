@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useState} from "react";
+import React, {Fragment, useEffect, useRef, useState} from "react";
 import MetaTags from "react-meta-tags";
 import LayoutOne from "../../layouts/LayoutOne";
 import FeatureIconTwo from "../../wrappers/feature-icon/FeatureIconTwo";
@@ -6,27 +6,48 @@ import BlogFeatured from "../../wrappers/blog-featured/BlogFeatured";
 import HeroSliderTen from "../../wrappers/hero-slider/HeroSliderTen";
 import NewProductGrid from "../../wrappers/product/NewProductGrid";
 import Lightbox from 'react-image-lightbox';
+import {useToasts} from "react-toast-notifications";
+import background from "../../assets/img/mainlast1.jpg"
+
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 
 import {load_home_page} from '../../redux/actions/homePageActions'
 
 import {connect} from "react-redux"
 import ProductDescriptionTab from "../../wrappers/product/ProductDescriptionTab";
 
-import s1 from "../../assets/img/S-1.jpg"
-import s2 from "../../assets/img/S-2.jpg"
-import s3 from "../../assets/img/S-3.jpg"
-import s4 from "../../assets/img/S-4.jpg"
-import m1 from "../../assets/img/M-1.jpg"
-import m2 from "../../assets/img/M-2.jpg"
-import m3 from "../../assets/img/M-3.jpg"
-import m4 from "../../assets/img/M-4.jpg"
-import l1 from "../../assets/img/L-1.jpg"
-import l2 from "../../assets/img/L-2.jpg"
-import l3 from "../../assets/img/L-3.jpg"
-import l4 from "../../assets/img/L-4.jpg"
+// import s1 from "../../assets/img/S-1.jpg"
+// import s2 from "../../assets/img/S-2.jpg"
+// import s3 from "../../assets/img/S-3.jpg"
+// import s4 from "../../assets/img/S-4.jpg"
+// import m1 from "../../assets/img/M-1.jpg"
+// import m2 from "../../assets/img/M-2.jpg"
+// import m3 from "../../assets/img/M-3.jpg"
+// import m4 from "../../assets/img/M-4.jpg"
+// import l1 from "../../assets/img/L-1.jpg"
+// import l2 from "../../assets/img/L-2.jpg"
+// import l3 from "../../assets/img/L-3.jpg"
+// import l4 from "../../assets/img/L-4.jpg"
+import s1 from "../../assets/img/s1.jpg"
+import s2 from "../../assets/img/s2.jpg"
+import s3 from "../../assets/img/s3.jpg"
+import s4 from "../../assets/img/s4.jpg"
+import m1 from "../../assets/img/m1.jpg"
+import m2 from "../../assets/img/m2.jpg"
+import m3 from "../../assets/img/m3.jpg"
+import m4 from "../../assets/img/m4.jpg"
+import l1 from "../../assets/img/l1.jpg"
+import l2 from "../../assets/img/l2.jpg"
+import l3 from "../../assets/img/l3.jpg"
+import l4 from "../../assets/img/l4.jpg"
 import SectionTitleTwo from "../../components/section-title/SectionTitleTwo";
 import {addToCart} from "../../redux/actions/cartActions";
 
+import bg from "../../assets/img/Pattern_example_beige_wide_beige.png"
+import {getFormattedPrice, isEmptyObject} from "../../helpers/phone"
+import HomeSubscriptions from "./HomeSubscriptions";
+import HomeTestBouquet from "./HomeTestBouquet";
 
 const HomeFashionThree = ({load_home_page, home_page, addToCart}) => {
 
@@ -35,240 +56,110 @@ const HomeFashionThree = ({load_home_page, home_page, addToCart}) => {
   }, [])
 
   useEffect(() => {
-    if (home_page) {
+    if (!isEmptyObject(home_page)) {
       setRecomendations(home_page.recomendations)
       setFullDescription(home_page.fullDescription)
+      setSliderData(home_page.titleblock)
+      setSubscriptions(home_page.showcase.subscriptions)
+      setTestBouquet(home_page.test_boquets)
+      setIsLoaded(true)
     }
   })
 
-  const [modal, setModal] = useState({
-    isOpen: false,
-    image: null
-  })
+  const scroll = () => showcase.current.scrollIntoView({behavior: "smooth"})
+  // const scroll = () => {window.scrollTo(0, showcase.current.scrollHeight)}
 
-  const [size, setSize] = useState('L')
-  const [price, setPrice] = useState(20000)
-  const [recomendations, setRecomendations] = useState('')
-  const [fullDescription, setFullDescription] = useState('')
-  const [subscription, setSubscription] = useState({})
 
   useEffect(() => {
-    setSubscription({
-      title: 'Подписка',
-      size: size,
-      price: price
-    })
-  }, [size, price])
+    if (!isEmptyObject(home_page)) {
+      let arr = []
+      home_page.gallery.images.map(item => {
+        return arr.push(item.image)
+      })
+      let tmb = []
+      home_page.gallery.images.map(item => {
+        return tmb.push(item.tmb)
+      })
+      setImages(arr)
+      setThumbs(tmb)
+    }
+  }, [])
 
-  const handleSize = (size, price) => {
-    setSize(size)
-    setPrice(price)
-  }
 
-  const SetS = () => {
-    return (
+  const [modal, setModal] = useState({
+    isOpen: false,
+    key: null
+  })
 
-      <Fragment>
-        <div className="col-xl-3 col-md-6 col-lg-4 col-sm-6 ">
-          <div className="product-wrap-2 mb-25  ">
-            <div className="product-img"><img src={s1} alt=""/>
-              {/*<div className="product-img-badges"><span className="pink">-10%</span><span*/}
-              {/*  className="purple">New</span></div>*/}
-              <div className="product-action-2">
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [images, setImages] = useState([])
+  const [thumbs, setThumbs] = useState([])
+  const [recomendations, setRecomendations] = useState('')
+  const [fullDescription, setFullDescription] = useState('')
+  const [selectedProductSize, setSelectedProductSize] = useState("");
+  const [quantityCount, setQuantityCount] = useState(null);
+  const [selectedProductColor, setSelectedProductColor] = useState("");
+  const [id, setId] = useState(3)
+  const [sliderData, setSliderData] = useState({})
+  const [subscriptions, setSubscriptions] = useState([])
+  const [testBouquet, setTestBouquet] = useState([])
 
-                <button title="Quick View" onClick={() => setModal({isOpen: true, image: s1})}><i
-                  className="fa fa-eye"></i></button>
 
+  const {addToast} = useToasts();
+
+  const showcase = useRef(null);
+
+  const responsive = {
+    superLargeDesktop: {
+
+      breakpoint: {max: 4000, min: 3000},
+      items: 7
+    },
+    desktop: {
+      breakpoint: {max: 3000, min: 1024},
+      items: 5
+    },
+    tablet: {
+      breakpoint: {max: 1024, min: 464},
+      items: 4
+    },
+    mobile: {
+      breakpoint: {max: 464, min: 0},
+      items: 1
+    }
+  };
+
+  const pictures =  thumbs ?
+      thumbs.map((item, key) => {
+        return (
+          <div className="col-xl-2 col-md-4 col-lg-2 col-sm-4 " key={key}>
+            <div className="product-wrap-2 mb-25  ">
+              <div className="product-img"><img src={item} alt=""/>
+                {/*<div className="product-img-badges"><span className="pink">-10%</span><span*/}
+                {/*  className="purple">New</span></div>*/}
+                <div className="product-action-2">
+
+                  <button title="Quick View" onClick={() => setModal({isOpen: true, key: key})}><i
+                    className="fa fa-eye"/></button>
+
+                </div>
               </div>
+
             </div>
-
-
           </div>
-        </div>
-        <div className="col-xl-3 col-md-6 col-lg-4 col-sm-6 ">
-          <div className="product-wrap-2 mb-25  ">
-            <div className="product-img"><img src={s2} alt=""/>
-              {/*<div className="product-img-badges"><span className="pink">-10%</span><span*/}
-              {/*  className="purple">New</span></div>*/}
-              <div className="product-action-2">
+        )
+      })
+      :
+      ''
 
-                <button title="Quick View" onClick={() => setModal({isOpen: true, image: s2})}><i className="fa fa-eye"></i></button>
-
-              </div>
-            </div>
-
-          </div>
-        </div>
-        <div className="col-xl-3 col-md-6 col-lg-4 col-sm-6 ">
-          <div className="product-wrap-2 mb-25  ">
-            <div className="product-img"><img src={s3} alt=""/>
-              {/*<div className="product-img-badges"><span className="pink">-10%</span><span*/}
-              {/*  className="purple">New</span></div>*/}
-              <div className="product-action-2">
-
-                <button title="Quick View" onClick={() => setModal({isOpen: true, image: s3})}><i className="fa fa-eye"></i></button>
-
-              </div>
-            </div>
-
-          </div>
-        </div>
-        <div className="col-xl-3 col-md-6 col-lg-4 col-sm-6 ">
-          <div className="product-wrap-2 mb-25  ">
-            <div className="product-img"><img src={s4} alt=""/>
-              {/*<div className="product-img-badges"><span className="pink">-10%</span><span*/}
-              {/*  className="purple">New</span></div>*/}
-              <div className="product-action-2">
-
-                <button title="Quick View" onClick={() => setModal({isOpen: true, image: s4})}><i className="fa fa-eye"></i></button>
-
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </Fragment>
-
-    )
-  }
-
-  const SetM = () => {
-    return (
-
-      <Fragment>
-        <div className="col-xl-3 col-md-6 col-lg-4 col-sm-6 ">
-          <div className="product-wrap-2 mb-25  ">
-            <div className="product-img"><img src={m1} alt=""/>
-              {/*<div className="product-img-badges"><span className="pink">-10%</span><span*/}
-              {/*  className="purple">New</span></div>*/}
-              <div className="product-action-2">
-
-                <button title="Quick View" onClick={() => setModal({isOpen: true, image: m1})}><i className="fa fa-eye"></i></button>
-
-              </div>
-            </div>
-
-          </div>
-        </div>
-        <div className="col-xl-3 col-md-6 col-lg-4 col-sm-6 ">
-          <div className="product-wrap-2 mb-25  ">
-            <div className="product-img"><img src={m2} alt=""/>
-              {/*<div className="product-img-badges"><span className="pink">-10%</span><span*/}
-              {/*  className="purple">New</span></div>*/}
-              <div className="product-action-2">
-
-                <button title="Quick View" onClick={() => setModal({isOpen: true, image: m2})}><i className="fa fa-eye"></i></button>
-
-              </div>
-            </div>
-
-          </div>
-        </div>
-        <div className="col-xl-3 col-md-6 col-lg-4 col-sm-6 ">
-          <div className="product-wrap-2 mb-25  ">
-            <div className="product-img"><img src={m3} alt=""/>
-              {/*<div className="product-img-badges"><span className="pink">-10%</span><span*/}
-              {/*  className="purple">New</span></div>*/}
-              <div className="product-action-2">
-
-                <button title="Quick View" onClick={() => setModal({isOpen: true, image: m3})}><i className="fa fa-eye"></i></button>
-
-              </div>
-            </div>
-
-          </div>
-        </div>
-        <div className="col-xl-3 col-md-6 col-lg-4 col-sm-6 ">
-          <div className="product-wrap-2 mb-25  ">
-            <div className="product-img"><img src={m4} alt=""/>
-              {/*<div className="product-img-badges"><span className="pink">-10%</span><span*/}
-              {/*  className="purple">New</span></div>*/}
-              <div className="product-action-2">
-
-                <button title="Quick View" onClick={() => setModal({isOpen: true, image: m4})}><i className="fa fa-eye"></i></button>
-
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </Fragment>
-
-    )
-  }
-
-  const SetL = () => {
-    return (
-
-      <Fragment>
-        <div className="col-xl-3 col-md-6 col-lg-4 col-sm-6 ">
-          <div className="product-wrap-2 mb-25  ">
-            <div className="product-img"><img src={l1} alt=""/>
-              {/*<div className="product-img-badges"><span className="pink">-10%</span><span*/}
-              {/*  className="purple">New</span></div>*/}
-              <div className="product-action-2">
-
-                <button title="Quick View" onClick={() => setModal({isOpen: true, image: l1})}><i className="fa fa-eye"></i></button>
-
-              </div>
-            </div>
-
-          </div>
-        </div>
-        <div className="col-xl-3 col-md-6 col-lg-4 col-sm-6 ">
-          <div className="product-wrap-2 mb-25  ">
-            <div className="product-img"><img src={l2} alt=""/>
-              {/*<div className="product-img-badges"><span className="pink">-10%</span><span*/}
-              {/*  className="purple">New</span></div>*/}
-              <div className="product-action-2">
-
-                <button title="Quick View" onClick={() => setModal({isOpen: true, image: l2})}><i className="fa fa-eye"></i></button>
-
-              </div>
-            </div>
-
-          </div>
-        </div>
-        <div className="col-xl-3 col-md-6 col-lg-4 col-sm-6 ">
-          <div className="product-wrap-2 mb-25  ">
-            <div className="product-img"><img src={l3} alt=""/>
-              {/*<div className="product-img-badges"><span className="pink">-10%</span><span*/}
-              {/*  className="purple">New</span></div>*/}
-              <div className="product-action-2">
-
-                <button title="Quick View" onClick={() => setModal({isOpen: true, image: l3})}><i className="fa fa-eye"></i></button>
-
-              </div>
-            </div>
-
-          </div>
-        </div>
-        <div className="col-xl-3 col-md-6 col-lg-4 col-sm-6 ">
-          <div className="product-wrap-2 mb-25  ">
-            <div className="product-img"><img src={l4} alt=""/>
-              {/*<div className="product-img-badges"><span className="pink">-10%</span><span*/}
-              {/*  className="purple">New</span></div>*/}
-              <div className="product-action-2">
-
-                <button title="Quick View" onClick={() => setModal({isOpen: true, image: l4})}><i className="fa fa-eye"></i></button>
-
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </Fragment>
-
-    )
-  }
 
   return (
     <Fragment>
       <MetaTags>
-        <title>Flone | Fashion Home</title>
+        <title>Нонночка&Флорочка | Главная</title>
         <meta
           name="description"
-          content="Fashion home of flone react minimalist eCommerce template."
+          content=""
         />
       </MetaTags>
       <LayoutOne
@@ -279,182 +170,178 @@ const HomeFashionThree = ({load_home_page, home_page, addToCart}) => {
 
         {modal.isOpen && (
           <Lightbox
-            mainSrc={modal.image}
-            onCloseRequest={() => setModal({isOpen: false, image: null})}
+            mainSrc={images[modal.key]}
+            nextSrc={images[(modal.key + 1) % images.length]}
+            prevSrc={images[(modal.key + images.length - 1) % images.length]}
+            onCloseRequest={() => setModal({isOpen: false, key: null})}
+            onMovePrevRequest={() =>
+              setModal({
+                ...modal,
+                key: (modal.key + images.length - 1) % images.length
+              })
+            }
+            onMoveNextRequest={() =>
+              setModal({
+                ...modal,
+                key: (modal.key + 1) % images.length
+              })
+            }
           />
         )}
 
         {/* hero slider */}
-        <HeroSliderTen/>
-        {/* feature icon */}
-        <FeatureIconTwo spaceTopClass="pt-100" spaceBottomClass="pb-60"/>
-        {/* product grid */}
+        {/*<HeroSliderTen*/}
+        {/*/>*/}
 
+        {isLoaded &&
 
-        {/*<div className="product-area pb-60 section-padding-1">*/}
-        {/*  */}
-        {/*</div>*/}
+        <Fragment>
 
-        {/*<div className="container-fluid">*/}
-        {/*    <div className="section-title-2 text-center mb-60"><h2>New Arrival</h2><p>Lorem ipsum dolor sit amet conse*/}
-        {/*      ctetu.</p></div>*/}
-        {/*    */}
-        {/*  </div>*/}
-
-        {/*<div className="row four-column" style="max-width: 1200px; margin-left: auto; margin-right: auto;">*/}
-        {/*      */}
-        {/*    </div>*/}
-
-
-        <div id="showcase" className='container pb-90'>
-          <SectionTitleTwo
-          titleText="Подписка на месяц"
-          subTitleText=""
-          positionClass="text-center"
-          spaceClass="mb-60"
-        />
-          <div className="w-100">
-            <h3>
-              Примерный сет на 4 недели:
-            </h3>
+          <div
+            className="single-slider-2 slider-height-2 d-flex align-items-center bg-img"
+            // style={{ backgroundImage: `url(${background})` }}
+            style={{backgroundImage: `url(${sliderData.image})`}}
+          >
+            <div className="container">
+              <div className="row">
+                <div className="col-xl-6 col-lg-7 col-md-8 col-12 ml-auto">
+                  <div className="slider-content-3 slider-animated-1 text-center" style={{
+                    backgroundColor: 'rgba(255,255,255,0.3)',
+                    padding: '100px 0',
+                    transition: 'background-color 0.2s'
+                  }}>
+                    <h3 className="animated">{sliderData.subtitle}</h3>
+                    <h1 className="animated main-title-nf">{sliderData.title}</h1>
+                    <p className="animated"
+                       dangerouslySetInnerHTML={{__html: sliderData.text}}
+                    />
+                    <div className="slider-btn btn-hover">
+                      <a
+                        className="animated"
+                        style={{zIndex: '2'}}
+                        onClick={() => scroll()}
+                      >
+                        {sliderData.button}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className='row four-column'>
 
-            {size === 'S' && <SetS/>}
-            {size === 'M' && <SetM/>}
-            {size === 'L' && <SetL/>}
+          {/* feature icon */}
+          <FeatureIconTwo spaceTopClass="pt-100" spaceBottomClass="pb-60" data={home_page.iconblock}/>
+          {/* product grid */}
 
-          </div>
-          <div className="product-content-2 d-flex justify-content-between">
-            <div className="title-price-wrap-2 ">
-              <h3>Выберите подходящий размер:</h3>
-              <div className='slider-content-3 mt-15 d-flex'>
-                <div className='d-flex justify-content-center align-items-center mr-2 slider-btn btn-hover'><a
-                  className={`animated ${size === 'S' ? 'active-button' : ''}`}
-                  style={{width: 50, height: 50, padding: '16px 19px'}} onClick={() => handleSize('S', 10000)}>S</a></div>
-                <div className='d-flex justify-content-center align-items-center mr-2 slider-btn btn-hover'><a
-                  className={`animated ${size === 'M' ? 'active-button' : ''}`}
-                  style={{width: 50, height: 50, padding: '16px 18px'}} onClick={() => handleSize('M', 15000)}>M</a></div>
-                <div className='d-flex justify-content-center align-items-center mr-2 slider-btn btn-hover'><a
-                  className={`animated ${size === 'L' ? 'active-button' : ''}`}
-                  style={{width: 50, height: 50, padding: '16px 20px'}} onClick={() => handleSize('L', 20000)}>L</a></div>
+
+          {/*<div className="product-area pb-60 section-padding-1">*/}
+          {/*  */}
+          {/*</div>*/}
+
+          {/*<div className="container-fluid">*/}
+          {/*    <div className="section-title-2 text-center mb-60"><h2>New Arrival</h2><p>Lorem ipsum dolor sit amet conse*/}
+          {/*      ctetu.</p></div>*/}
+          {/*    */}
+          {/*  </div>*/}
+
+          {/*<div className="row four-column" style="max-width: 1200px; margin-left: auto; margin-right: auto;">*/}
+          {/*      */}
+          {/*    </div>*/}
+
+
+          <div style={{width: '100%', backgroundColor: 'rgba(254, 230, 211, 1)'}}>
+            <div ref={showcase} className='container mb-90 py-5'>
+              <SectionTitleTwo
+                titleText="Подписка на месяц"
+                subTitleText=""
+                positionClass="text-center"
+                spaceClass="mb-60"
+                image={bg}
+              />
+              <div>
+                {subscriptions &&
+                subscriptions.map((item, id) => (
+                  <HomeSubscriptions key={id} item={item} item_id={id}/>
+                ))
+                }
+
+                <div className="w-100 mt-5">
+                  <h3>
+                    Сомневаетесь?
+                  </h3>
+                  <h4>
+                    Закажите пробный букет
+                  </h4>
+                </div>
+
+                {testBouquet &&
+                testBouquet.map((item, id) => (
+                  <HomeTestBouquet key={id} item={item}/>
+                ))
+
+                }
 
               </div>
             </div>
+          </div>
+
+
+          <SectionTitleTwo
+            titleText={home_page.showcase.title}
+            subTitleText=""
+            positionClass="text-center"
+            spaceClass="mb-60"
+            image={bg}
+          />
+          <div className='container pb-90'>
+            <div className="column"
+                 dangerouslySetInnerHTML={{__html: home_page.showcase.description}}
+            />
+          </div>
+
+
+          {/*<ProductDescriptionTab*/}
+          {/*  spaceBottomClass="pb-90"*/}
+          {/*  size={size}*/}
+          {/*  recomendations={recomendations}*/}
+          {/*  productFullDesc={fullDescription}*/}
+          {/*/>*/}
+          <div style={{width: '100%', backgroundColor: '#a5c3d9'}} className="pt-50">
             <div>
-              <div className="price-2"><span style={{
-                fontSize: 30,
-                fontWeight: '100'
-              }}>₽ {price}</span></div>
-              <div className='slider-content-3 mt-15 text-right'>
-                <div className="slider-btn btn-hover" onClick={() => addToCart(subscription, 'Добавлено в корзину')}><a className="animated p-3"
-                                                         >КУПИТЬ ПОДПИСКУ</a>
+              <SectionTitleTwo
+                titleText={home_page.gallery.title}
+                subTitleText=""
+                positionClass="text-center"
+                spaceClass="mb-60"
+                image={bg}
+              />
+
+              <div className='container pb-90'>
+                <div className='row justify-content-center'>
+
+                  {pictures}
+
+
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        <ProductDescriptionTab
-          spaceBottomClass="pb-90"
-          size={size}
-          recomendations={recomendations}
-          productFullDesc={fullDescription}
-        />
-
-        <div className='container'>
-          <NewProductGrid category="accessories" limit={4}/>
-        </div>
-
-
-        <div className='container pb-90'>
-          <SectionTitleTwo
-          titleText="Примеры наших работ"
-          subTitleText=""
-          positionClass="text-center"
-          spaceClass="mb-60"
-        />
-          <div className='row justify-content-center'>
-
-            <div className="col-xl-2 col-md-4 col-lg-2 col-sm-4 ">
-              <div className="product-wrap-2 mb-25  ">
-                <div className="product-img"><img src={l1} alt=""/>
-                  {/*<div className="product-img-badges"><span className="pink">-10%</span><span*/}
-                  {/*  className="purple">New</span></div>*/}
-                  <div className="product-action-2">
-
-                    <button title="Quick View" onClick={() => setModal({isOpen: true, image: l1})}><i className="fa fa-eye"></i></button>
-
-                  </div>
-                </div>
-
-              </div>
-            </div>
-            <div className="col-xl-2 col-md-4 col-lg-2 col-sm-4 ">
-              <div className="product-wrap-2 mb-25  ">
-                <div className="product-img"><img src={l2} alt=""/>
-                  {/*<div className="product-img-badges"><span className="pink">-10%</span><span*/}
-                  {/*  className="purple">New</span></div>*/}
-                  <div className="product-action-2">
-
-                    <button title="Quick View" onClick={() => setModal({isOpen: true, image: l2})}><i className="fa fa-eye"></i></button>
-
-                  </div>
-                </div>
-
-              </div>
-            </div>
-            <div className="col-xl-2 col-md-4 col-lg-2 col-sm-4 ">
-              <div className="product-wrap-2 mb-25  ">
-                <div className="product-img"><img src={l3} alt=""/>
-                  {/*<div className="product-img-badges"><span className="pink">-10%</span><span*/}
-                  {/*  className="purple">New</span></div>*/}
-                  <div className="product-action-2">
-
-                    <button title="Quick View" onClick={() => setModal({isOpen: true, image: l3})}><i className="fa fa-eye"></i></button>
-
-                  </div>
-                </div>
-
-              </div>
-            </div>
-            <div className="col-xl-2 col-md-4 col-lg-2 col-sm-4 ">
-              <div className="product-wrap-2 mb-25  ">
-                <div className="product-img"><img src={l4} alt=""/>
-                  {/*<div className="product-img-badges"><span className="pink">-10%</span><span*/}
-                  {/*  className="purple">New</span></div>*/}
-                  <div className="product-action-2">
-
-                    <button title="Quick View" onClick={() => setModal({isOpen: true, image: l4})}><i className="fa fa-eye"></i></button>
-
-                  </div>
-                </div>
-
-              </div>
-            </div>
-            <div className="col-xl-2 col-md-4 col-lg-2 col-sm-4 ">
-              <div className="product-wrap-2 mb-25  ">
-                <div className="product-img"><img src={l4} alt=""/>
-                  {/*<div className="product-img-badges"><span className="pink">-10%</span><span*/}
-                  {/*  className="purple">New</span></div>*/}
-                  <div className="product-action-2">
-
-                    <button title="Quick View" onClick={() => setModal({isOpen: true, image: l4})}><i className="fa fa-eye"></i></button>
-
-                  </div>
-                </div>
-
+                {/*{home_page.gallery.images.length > 5 &&*/}
+                {/*<div className='slider-content-3 mt-15 text-center'>*/}
+                {/*  <div className="slider-btn btn-hover"><a className="animated p-3"*/}
+                {/*                                           href="/gallery">ЕЩЕ РАБОТЫ</a>*/}
+                {/*  </div>*/}
+                {/*</div>*/}
+                {/*}*/}
               </div>
             </div>
 
           </div>
-          <div className='slider-content-3 mt-15 text-center'>
-            <div className="slider-btn btn-hover"><a className="animated p-3"
-                                                     href="/gallery">ЕЩЕ РАБОТЫ</a>
-            </div>
+          <div className='container mb-90 pt-5 pb-3'>
+            <NewProductGrid category="accessories" limit={4}/>
           </div>
-        </div>
+
+
+        </Fragment>
+        }
 
 
         {/*<NewProductGrid category="accessories" limit={4} />*/}

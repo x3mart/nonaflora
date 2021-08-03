@@ -8,7 +8,7 @@ const Logo = ({ imageUrl, logoClass }) => {
     <div className={`${logoClass ? logoClass : ""}`}>
       <Link to={process.env.PUBLIC_URL + "/"}>
         {/*<div style={{fontSize:25, fontWeight:700}}>N&F</div>*/}
-        <img alt="" src={logo} width="187,5px" height="75px"/>
+        <img alt="" src={logo} style={{height:75, width:'auto'}}/>
       </Link>
     </div>
   );

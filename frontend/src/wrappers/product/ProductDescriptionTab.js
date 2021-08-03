@@ -12,7 +12,7 @@ const ProductDescriptionTab = ({home_page, spaceBottomClass, productFullDesc, si
           <Tab.Container defaultActiveKey="productDescription">
             <Nav variant="pills" className="description-review-topbar">
               <Nav.Item>
-                <Nav.Link eventKey="productDescription">Описание</Nav.Link>
+                <Nav.Link eventKey="productDescription">Как это работает</Nav.Link>
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link eventKey="productReviews">Рекомендации по уходу</Nav.Link>

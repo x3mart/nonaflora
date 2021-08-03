@@ -9,9 +9,9 @@ import { connect } from "react-redux";
 function ProductModal(props) {
   const { product } = props;
   const { currency } = props;
-  const { discountedprice } = props;
+  // const { discountedprice } = props;
   const { finalproductprice } = props;
-  const { finaldiscountedprice } = props;
+  // const { finaldiscountedprice } = props;
 
   const [gallerySwiper, getGallerySwiper] = useState(null);
   const [thumbnailSwiper, getThumbnailSwiper] = useState(null);
@@ -107,22 +107,24 @@ function ProductModal(props) {
               <div className="product-details-content quickview-content">
                 <h2>{product.name}</h2>
                 <div className="product-details-price">
-                  {discountedprice !== null ? (
-                    <Fragment>
-                      <span>
-                        {finaldiscountedprice}
-                      </span>{" "}
-                      <span className="old">
-                        {finalproductprice}
-                      </span>
-                    </Fragment>
-                  ) : (
-                    <span>{finalproductprice} </span>
-                  )}
+                  {/*{discountedprice !== null ? (*/}
+                  {/*  <Fragment>*/}
+                  {/*    <span>*/}
+                  {/*      {finaldiscountedprice}*/}
+                  {/*    </span>{" "}*/}
+                  {/*    <span className="old">*/}
+                  {/*      {finalproductprice}*/}
+                  {/*    </span>*/}
+                  {/*  </Fragment>*/}
+                  {/*) : (*/}
+                  {/*  <span>{finalproductprice} р.</span>*/}
+                  {/*)}*/}
+                  <span>{finalproductprice} р.</span>
                 </div>
-                <div className="pro-details-list">
-                  <p>{product.description}</p>
-                </div>
+                <div
+                  className="pro-details-list"
+                  dangerouslySetInnerHTML={{__html: product.description}}
+                />
 
                 <div className="pro-details-quality">
                     <div className="cart-plus-minus">

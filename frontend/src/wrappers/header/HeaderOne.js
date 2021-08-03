@@ -46,15 +46,27 @@ const HeaderOne = ({
       >
         <div className={layout === "container-fluid" ? layout : "container"}>
           <div className="row">
-            <div className="col-xl-2 col-lg-2 col-md-6 col-4">
+            <div className="col-xl-2 col-lg-2 col-sm-6 col-4 d-block d-md-none px-0">
               {/* header logo */}
               <Logo imageUrl="/assets/img/logo/logo.png" logoClass="logo" />
             </div>
-            <div className="col-xl-8 col-lg-8 d-none d-lg-block">
+
+            <div className="col-xl-2 col-lg-2 col-sm-6 col-4 d-none d-md-block">
+              {/* header logo */}
+              <Logo imageUrl="/assets/img/logo/logo.png" logoClass="logo" />
+            </div>
+
+            <div className="col-xl-6 col-lg-6 col-md-6 col-8 d-none d-md-block">
               {/* Nav menu */}
               <NavMenu />
             </div>
-            <div className="col-xl-2 col-lg-2 col-md-6 col-8">
+            <div className="col-sm-6 col-xl-4 col-lg-4 d-none d-md-flex justify-content-end">
+
+              {/* Icon group */}
+              <IconGroup />
+            </div>
+            <div className="col-sm-6 col-xl-4 col-lg-4 d-flex d-md-none justify-content-end position-absolute" style={{top: 50}}>
+
               {/* Icon group */}
               <IconGroup />
             </div>

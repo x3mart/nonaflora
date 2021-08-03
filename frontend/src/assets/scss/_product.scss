@@ -89,8 +89,8 @@
       }
       &:hover {
         color: #fff;
-        border: 1px solid $theme-color;
-        background-color: $theme-color;
+        border: 1px solid #e0b22b;
+        background-color: #e0b22b;
       }
       &.swiper-button-prev {
         right: 40px;
@@ -270,10 +270,10 @@
         color: #fff;
         border-radius: 3px;
         &.pink {
-          background-color: #fa6bff;
+          background-color: #e8c456;
         }
         &.purple {
-          background-color: $theme-color;
+          background-color: #e0b22b;
         }
 
         &:last-child {
@@ -319,7 +319,7 @@
         transform: translateY(20px);
 
         opacity: 0;
-        background-color: $theme-color;
+        background-color: #e0b22b;
         // &:hover {
         //     background-color: #000;
         // }
@@ -465,7 +465,7 @@
       opacity: 1;
       color: #333;
       &:hover {
-        color: $theme-color;
+        color: #e0b22b;
       }
     }
   }
@@ -517,7 +517,7 @@
     span {
       font-size: 24px;
 
-      color: #fe5252;
+      color: #234149;
       &.old {
         font-size: 18px;
 
@@ -525,7 +525,7 @@
 
         text-decoration: line-through;
 
-        color: #333;
+        color: #234149;
       }
     }
   }
@@ -567,7 +567,7 @@
       a {
         font-size: 15px;
 
-        color: $theme-color;
+        color: #e0b22b;
         &:hover {
           color: #000;
         }
@@ -802,7 +802,7 @@
               background-color: #f1f2f6;
               &:hover {
                 color: #fff;
-                background-color: $theme-color;
+                background-color: #e0b22b;
               }
             }
           }
@@ -823,7 +823,7 @@
           background-color: #f1f2f6;
           &:hover {
             color: #fff;
-            background-color: $theme-color;
+            background-color: #e0b22b;
           }
           input {
             position: absolute;
@@ -839,7 +839,7 @@
             &:checked {
               & ~ .size-name {
                 color: $white;
-                background-color: $theme-color;
+                background-color: #e0b22b;
               }
             }
           }
@@ -975,7 +975,7 @@
         background: none;
         &:hover,
         &.active {
-          color: $theme-color;
+          color: #e0b22b;
         }
       }
     }
@@ -994,7 +994,7 @@
         }
         &:hover,
         &.active {
-          color: $theme-color;
+          color: #e0b22b;
         }
       }
     }
@@ -1023,7 +1023,7 @@
             font-size: 14px;
           }
           &:hover {
-            color: $theme-color;
+            color: #e0b22b;
           }
         }
       }
@@ -1043,7 +1043,7 @@
 
           color: #343538;
           &:hover {
-            color: $theme-color;
+            color: #e0b22b;
           }
         }
       }
@@ -1108,7 +1108,7 @@
 
     color: #333;
     &:hover {
-      color: $theme-color;
+      color: #e0b22b;
     }
     &.owl-next {
       right: 0;
@@ -1210,7 +1210,7 @@
     background: none;
     &:hover,
     &.active {
-      color: $theme-color;
+      color: #e0b22b;
     }
     i {
       font-size: 14px;
@@ -1301,7 +1301,7 @@
           background: none;
           &:hover,
           &.active {
-            color: $theme-color;
+            color: #e0b22b;
           }
         }
       }
@@ -1319,7 +1319,7 @@
 
             border: 1px solid #e6e6e6;
             &:hover {
-              border-color: $theme-color;
+              border-color: #e0b22b;
             }
           }
         }
@@ -1371,7 +1371,7 @@
       transition: all 0.0s ease 0s;
 
       border: none;
-      background: #fa6bff none repeat scroll 0 0;
+      background: #e8c456 none repeat scroll 0 0;
     }
     .ui-slider-handle {
       width: 15px;
@@ -1379,7 +1379,7 @@
       margin-left: 0;
 
       border: medium none;
-      border: 4px solid #fa6bff;
+      border: 4px solid #e8c456;
       border-radius: 50%;
       background: #fff none repeat scroll 0 0;
     }
@@ -1421,13 +1421,13 @@
       top: 20px;
       right: 20px;
       &.pink {
-        color: #fa6bff;
+        color: #e8c456;
       }
       &.red {
         color: #ff3d2a;
       }
       &.purple {
-        color: $theme-color;
+        color: #e0b22b;
       }
     }
     & .default-img {
@@ -1476,17 +1476,17 @@
         border: none;
         border-radius: 50px;
         background: none;
-        background-color: $theme-color;
+        background-color: #e0b22b;
         &:hover,
         &.active {
-          background-color: #fa6bff;
+          background-color: #e8c456;
         }
       }
       &.product-action-2-red {
         a {
           background-color: #df262b;
           &:hover {
-            background-color: $theme-color;
+            background-color: #e0b22b;
           }
         }
       }
@@ -1510,10 +1510,10 @@
 
         border-radius: 3px;
         &.pink {
-          color: #fa6bff;
+          color: #e8c456;
         }
         &.purple {
-          color: $theme-color;
+          color: #e0b22b;
         }
 
         &:last-child {
@@ -1535,9 +1535,9 @@
         a {
           font-size: 16px;
 
-          color: #000000;
+          color: #234149;
           &:hover {
-            color: $theme-color;
+            color: #e0b22b;
           }
         }
       }
@@ -1549,11 +1549,11 @@
 
           margin-right: 17px;
 
-          color: #000000;
+          color: #234149;
           &.old {
             text-decoration: line-through;
 
-            color: #fa6bff;
+            color: #e8c456;
             &.red {
               color: #ff3d2a;
             }
@@ -1581,7 +1581,7 @@
           a {
             color: #fff;
             &:hover {
-              color: $theme-color;
+              color: #e0b22b;
             }
           }
         }
@@ -1591,7 +1591,7 @@
             &.old {
               text-decoration: line-through;
 
-              color: #fa6bff;
+              color: #e8c456;
             }
           }
         }
@@ -1611,7 +1611,7 @@
         background: none;
         &:hover,
         &.active {
-          color: $theme-color;
+          color: #e0b22b;
         }
       }
     }
@@ -1771,8 +1771,8 @@
     color: #555;
     border-bottom: 1px solid #cccccc;
     &:hover {
-      color: $theme-color;
-      border-bottom: 1px solid $theme-color;
+      color: #e0b22b;
+      border-bottom: 1px solid #e0b22b;
     }
   }
   @media #{$xs-layout} {
@@ -1797,7 +1797,7 @@
       background-color: #c61a32;
 
       &:hover {
-        background-color: $theme-color;
+        background-color: #e0b22b;
       }
     }
   }
@@ -1861,10 +1861,10 @@
         color: #fff;
         border-radius: 3px;
         &.purple {
-          background-color: $theme-color;
+          background-color: #e0b22b;
         }
         &.pink {
-          background-color: #fa6bff;
+          background-color: #e8c456;
         }
         &:last-child {
           margin-bottom: 0;
@@ -1966,7 +1966,7 @@
           background-color: #a749ff;
           &:hover,
           &.active {
-            background-color: #fa6bff;
+            background-color: #e8c456;
           }
           &:disabled {
             cursor: not-allowed;
@@ -2163,7 +2163,7 @@
         &.old {
           text-decoration: line-through;
 
-          color: #fa6bff;
+          color: #e8c456;
         }
       }
       &.price-4-center {
@@ -2218,7 +2218,7 @@
 
         color: #000000;
         &:hover {
-          color: $theme-color;
+          color: #e0b22b;
         }
       }
     }
@@ -2258,7 +2258,7 @@
 
       &:hover {
         color: $white;
-        border-color: $theme-color;
+        border-color: #e0b22b;
         background-color: transparent;
         &:after {
           right: auto;
@@ -2266,7 +2266,7 @@
 
           width: 100%;
 
-          background-color: $theme-color;
+          background-color: #e0b22b;
         }
       }
     }
@@ -2304,10 +2304,10 @@
       color: #fff;
       border-radius: 3px;
       &.purple {
-        background-color: $theme-color;
+        background-color: #e0b22b;
       }
       &.pink {
-        background-color: #fa6bff;
+        background-color: #e8c456;
       }
       &:last-child {
         margin-bottom: 0;
@@ -2355,7 +2355,7 @@
         &:hover,
         &.active {
           color: #fff;
-          background-color: #fa6bff;
+          background-color: #e8c456;
         }
       }
     }
@@ -2370,7 +2370,7 @@
       a {
         color: #000;
         &:hover {
-          color: $theme-color;
+          color: #e0b22b;
         }
       }
     }
@@ -2401,7 +2401,7 @@
         &.old {
           text-decoration: line-through;
 
-          color: #fa6bff;
+          color: #e8c456;
         }
       }
     }
@@ -3268,7 +3268,7 @@
         background: none;
         &:hover,
         &.active {
-          color: $theme-color;
+          color: #e0b22b;
         }
       }
     }

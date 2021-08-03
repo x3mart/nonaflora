@@ -224,7 +224,7 @@
 
             list-style: outside none none;
 
-            color: $theme-color;
+            color: #e0b22b;
           }
         }
       }
@@ -283,9 +283,9 @@
     border: none;
     border-radius: 50px;
     background: none;
-    background-color: $theme-color;
+    background-color: #e0b22b;
     &:hover {
-      background-color: #333;
+      background-color: #234149;
     }
   }
 }

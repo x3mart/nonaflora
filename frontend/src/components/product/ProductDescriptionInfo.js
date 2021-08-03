@@ -191,6 +191,7 @@ const ProductDescriptionInfo = ({
                     selectedProductSize
                   )
                 }
+                // onClick={() => console.log(product)}
                 disabled={productCartQty >= productStock}
               >
                 {" "}

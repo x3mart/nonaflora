@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
-import React, { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
-import { useToasts } from "react-toast-notifications";
+import React, {Fragment, useState} from "react";
+import {Link} from "react-router-dom";
+import {useToasts} from "react-toast-notifications";
 import MetaTags from "react-meta-tags";
-import { BreadcrumbsItem } from "react-breadcrumbs-dynamic";
-import { connect } from "react-redux";
-import { getDiscountPrice } from "../../helpers/product";
+import {BreadcrumbsItem} from "react-breadcrumbs-dynamic";
+import {connect} from "react-redux";
+import {getDiscountPrice, promoPrice} from "../../helpers/product";
 import {
   addToCart,
   decreaseQuantity,
@@ -15,28 +15,32 @@ import {
 } from "../../redux/actions/cartActions";
 import LayoutOne from "../../layouts/LayoutOne";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
+import {getFormattedPrice} from "../../helpers/phone";
 
 const Cart = ({
-  location,
-  cartItems,
-  currency,
-  decreaseQuantity,
-  addToCart,
-  deleteFromCart,
-  deleteAllFromCart
-}) => {
+                location,
+                cartItems,
+                currency,
+                decreaseQuantity,
+                addToCart,
+                deleteFromCart,
+                deleteAllFromCart,
+                promo
+              }) => {
   const [quantityCount] = useState(1);
-  const { addToast } = useToasts();
-  const { pathname } = location;
+  const {addToast} = useToasts();
+  const {pathname} = location;
   let cartTotalPrice = 0;
+
+  console.log(cartItems)
 
   return (
     <Fragment>
       <MetaTags>
-        <title>Flone | Cart</title>
+        <title>Нонночка&Флорочка | Корзина</title>
         <meta
           name="description"
-          content="Cart page of flone react minimalist eCommerce template."
+          content=""
         />
       </MetaTags>
 
@@ -47,7 +51,7 @@ const Cart = ({
 
       <LayoutOne headerTop="visible">
         {/* breadcrumb */}
-        <Breadcrumb />
+        <Breadcrumb/>
         <div className="cart-main-area pt-90 pb-100">
           <div className="container">
             {cartItems && cartItems.length >= 1 ? (
@@ -58,163 +62,147 @@ const Cart = ({
                     <div className="table-content table-responsive cart-table-content">
                       <table>
                         <thead>
-                          <tr>
-                            <th>Изображение</th>
-                            <th>Наименование</th>
-                            <th>Цена</th>
-                            <th>Кол-во</th>
-                            <th>Стоимость</th>
-                            <th>действие</th>
-                          </tr>
+                        <tr>
+                          <th>Изображение</th>
+                          <th>Наименование</th>
+                          <th>Цена</th>
+                          <th>Кол-во</th>
+                          <th>Стоимость</th>
+                          <th>действие</th>
+                        </tr>
                         </thead>
                         <tbody>
-                          {cartItems.map((cartItem, key) => {
-                            const discountedPrice = getDiscountPrice(
-                              cartItem.price,
-                              cartItem.discount
-                            );
-                            const finalProductPrice = (
-                              cartItem.price * currency.currencyRate
-                            ).toFixed(0);
-                            const finalDiscountedPrice = (
-                              discountedPrice * currency.currencyRate
-                            ).toFixed(0);
+                        {cartItems.map((cartItem, key) => {
+                          const discountedPrice = promoPrice(
+                            cartItem,
+                            promo
+                          );
+                          const finalProductPrice = (
+                            cartItem.price * currency.currencyRate
+                          ).toFixed(0);
+                          const finalDiscountedPrice = (
+                            discountedPrice * currency.currencyRate
+                          ).toFixed(0);
 
-                            discountedPrice != null
-                              ? (cartTotalPrice +=
-                                  finalDiscountedPrice * cartItem.quantity)
-                              : (cartTotalPrice +=
-                                  finalProductPrice * cartItem.quantity);
-                            return (
-                              <tr key={key}>
-                                <td className="product-thumbnail">
-                                  <Link
-                                    to={
-                                      process.env.PUBLIC_URL +
-                                      "/product/" +
-                                      cartItem.id
-                                    }
-                                  >
-                                    <img
-                                      className="img-fluid"
-                                      src={
-                                        process.env.PUBLIC_URL +
-                                        cartItem.image
-                                      }
-                                      alt=""
-                                    />
-                                  </Link>
-                                </td>
+                          discountedPrice != null
+                            ? (cartTotalPrice +=
+                            finalDiscountedPrice * cartItem.quantity)
+                            : (cartTotalPrice +=
+                            finalProductPrice * cartItem.quantity);
+                          return (
+                            <tr key={key}>
+                              <td className="product-thumbnail">
+                                <img
+                                  className="img-fluid"
+                                  src={
+                                    process.env.PUBLIC_URL +
+                                    cartItem.image
+                                  }
+                                  alt=""
+                                />
+                              </td>
 
-                                <td className="product-name">
-                                  <Link
-                                    to={
-                                      process.env.PUBLIC_URL +
-                                      "/product/" +
-                                      cartItem.id
-                                    }
-                                  >
-                                    {cartItem.title}
-                                  </Link>
-                                  {cartItem.selectedProductColor &&
-                                  cartItem.selectedProductSize ? (
-                                    <div className="cart-item-variation">
+                              <td className="product-name">
+                                {cartItem.title}
+                                {cartItem.selectedProductColor &&
+                                cartItem.selectedProductSize ? (
+                                  <div className="cart-item-variation">
                                       <span>
                                         Color: {cartItem.selectedProductColor}
                                       </span>
-                                      <span>
+                                    <span>
                                         Size: {cartItem.selectedProductSize}
                                       </span>
-                                    </div>
-                                  ) : (
-                                    ""
-                                  )}
-                                </td>
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
+                              </td>
 
-                                <td className="product-price-cart">
-                                  {discountedPrice !== null ? (
-                                    <Fragment>
+                              <td className="product-price-cart">
+                                {discountedPrice !== null ? (
+                                  <Fragment>
                                       <span className="amount old">
                                         {
-                                          finalProductPrice}
+                                          getFormattedPrice(finalProductPrice)}
                                       </span>
-                                      <span className="amount">
-                                        {
-                                          finalDiscountedPrice}
-                                      </span>
-                                    </Fragment>
-                                  ) : (
                                     <span className="amount">
+                                        {
+                                          getFormattedPrice(finalDiscountedPrice)}
+                                      </span>
+                                  </Fragment>
+                                ) : (
+                                  <span className="amount">
                                       {
-                                        finalProductPrice}
+                                        getFormattedPrice(finalProductPrice)}
                                     </span>
-                                  )}
-                                </td>
+                                )} р.
+                              </td>
 
-                                <td className="product-quantity">
-                                  <div className="cart-plus-minus">
-                                    <button
-                                      className="dec qtybutton"
-                                      onClick={() =>
-                                        decreaseQuantity(cartItem, addToast)
-                                      }
-                                    >
-                                      -
-                                    </button>
-                                    <input
-                                      className="cart-plus-minus-box"
-                                      type="text"
-                                      value={cartItem.quantity}
-                                      readOnly
-                                    />
-                                    <button
-                                      className="inc qtybutton"
-                                      onClick={() =>
-                                        addToCart(
-                                          cartItem,
-                                          addToast,
-                                          quantityCount
-                                        )
-                                      }
-                                      // disabled={
-                                      //   cartItem !== undefined &&
-                                      //   cartItem.quantity &&
-                                      //   cartItem.quantity >=
-                                      //     cartItemStock(
-                                      //       cartItem,
-                                      //       cartItem.selectedProductColor,
-                                      //       cartItem.selectedProductSize
-                                      //     )
-                                      // }
-                                    >
-                                      +
-                                    </button>
-                                  </div>
-                                </td>
-                                <td className="product-subtotal">
-                                  {discountedPrice !== null
-                                    ?
-                                      (
-                                        finalDiscountedPrice * cartItem.quantity
-                                      ).toFixed(0)
-                                    :
-                                      (
-                                        finalProductPrice * cartItem.quantity
-                                      ).toFixed(0)}
-                                </td>
-
-                                <td className="product-remove">
+                              <td className="product-quantity">
+                                <div className="cart-plus-minus">
                                   <button
+                                    className="dec qtybutton"
                                     onClick={() =>
-                                      deleteFromCart(cartItem, addToast)
+                                      decreaseQuantity(cartItem, addToast)
                                     }
                                   >
-                                    <i className="fa fa-times"></i>
+                                    -
                                   </button>
-                                </td>
-                              </tr>
-                            );
-                          })}
+                                  <input
+                                    className="cart-plus-minus-box"
+                                    type="text"
+                                    value={cartItem.quantity}
+                                    readOnly
+                                  />
+                                  <button
+                                    className="inc qtybutton"
+                                    onClick={() =>
+                                      addToCart(
+                                        cartItem,
+                                        addToast,
+                                        quantityCount
+                                      )
+                                    }
+                                    // disabled={
+                                    //   cartItem !== undefined &&
+                                    //   cartItem.quantity &&
+                                    //   cartItem.quantity >=
+                                    //     cartItemStock(
+                                    //       cartItem,
+                                    //       cartItem.selectedProductColor,
+                                    //       cartItem.selectedProductSize
+                                    //     )
+                                    // }
+                                  >
+                                    +
+                                  </button>
+                                </div>
+                              </td>
+                              <td className="product-subtotal">
+                                {discountedPrice !== null
+                                  ?
+                                  getFormattedPrice((
+                                    finalDiscountedPrice * cartItem.quantity
+                                  ).toFixed(0))
+                                  :
+                                  getFormattedPrice((
+                                    finalProductPrice * cartItem.quantity
+                                  ).toFixed(0))} р.
+                              </td>
+
+                              <td className="product-remove">
+                                <button
+                                  onClick={() =>
+                                    deleteFromCart(cartItem, addToast)
+                                  }
+                                >
+                                  <i className="fa fa-times"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          );
+                        })}
                         </tbody>
                       </table>
                     </div>
@@ -251,11 +239,11 @@ const Cart = ({
                       <h4 className="grand-totall-title">
                         Сумма к оплате{" "}
                         <span>
-                          {cartTotalPrice.toFixed(0)}
+                          {getFormattedPrice(cartTotalPrice.toFixed(0))} р.
                         </span>
                       </h4>
                       <Link to={process.env.PUBLIC_URL + "/checkout"}>
-                        Перейти к оплате
+                        Оформить заказ
                       </Link>
                     </div>
                   </div>
@@ -269,7 +257,7 @@ const Cart = ({
                       <i className="pe-7s-cart"></i>
                     </div>
                     <div className="item-empty-area__text">
-                      Здесь ничего нет <br />{" "}
+                      Здесь ничего нет <br/>{" "}
                       <Link to={process.env.PUBLIC_URL + "/"}>
                         На главную
                       </Link>
@@ -298,7 +286,8 @@ Cart.propTypes = {
 const mapStateToProps = state => {
   return {
     cartItems: state.cartData,
-    currency: state.currencyData
+    currency: state.currencyData,
+    promo: state.promoReducer.promo
   };
 };
 

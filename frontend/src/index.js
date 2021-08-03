@@ -2,18 +2,19 @@ import "react-app-polyfill/ie11";
 import "react-app-polyfill/stable";
 import React from "react";
 import ReactDOM from "react-dom";
-import { createStore, applyMiddleware } from "redux";
+import {createStore, applyMiddleware} from "redux";
 import thunk from "redux-thunk";
-import { save, load } from "redux-localstorage-simple";
-import { Provider } from "react-redux";
-import { fetchProducts } from "./redux/actions/productActions";
+import {save, load} from "redux-localstorage-simple";
+import {Provider} from "react-redux";
+import {fetchProducts} from "./redux/actions/productActions";
 import rootReducer from "./redux/reducers/rootReducer";
 import products from "./data/products.json";
 import App from "./App";
 import "./assets/scss/style.scss";
 import * as serviceWorker from "./serviceWorker";
+import {CookiesProvider} from "react-cookie";
 
-import { composeWithDevTools } from "redux-devtools-extension";
+import {composeWithDevTools} from "redux-devtools-extension";
 
 const store = createStore(
   rootReducer,
@@ -25,9 +26,11 @@ const store = createStore(
 store.dispatch(fetchProducts(products));
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <CookiesProvider>
+    <Provider store={store}>
+      <App/>
+    </Provider>
+  </CookiesProvider>,
   document.getElementById("root")
 );
 
